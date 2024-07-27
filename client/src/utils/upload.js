@@ -3,10 +3,10 @@ import axios from "axios";
 const upload = async (file) => {
   const data = new FormData();
   data.append("file", file);
-  data.append("upload_preset", "FreeWork");
+  data.append("upload_preset", "fiverr");
 
   try {
-    const res = await axios.post("cloudinary://296177229313819:<your_api_secret>@dr59qsljd", data);
+    const res = await axios.post(import.meta.env.VITE_UPLOAD_LINK, data);
 
     const { url } = res.data;
     return url;
