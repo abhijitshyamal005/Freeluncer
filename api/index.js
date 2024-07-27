@@ -9,6 +9,7 @@ import reviewRoute from './routes/review.route.js';
 import conversationRoute from './routes/conversation.route.js';
 import authRoute from './routes/auth.route.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 
 const app = express();
@@ -28,6 +29,7 @@ const connect = async () => {
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cros({origin: 'http://localhost:5173',credential:true}));
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
@@ -41,6 +43,14 @@ app.use("/api/gigs", gigRoute);
 app.use("/api/reviews", reviewRoute);
 
 app.use("/api/conversations", conversationRoute);
+
+app.use((err,req,res,next) =>{
+    const errorStatus = err.status ||  500
+    const errorMessage = err.message || "sometghin went wrong";
+
+    return res.status(errorStatus).send(errorMessage);
+});
+
 
 
 app.listen(8000, () => {
